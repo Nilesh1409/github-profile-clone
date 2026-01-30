@@ -1,7 +1,16 @@
-import { useMemo, useState, type ReactNode } from 'react';
+import { useMemo, useState, useEffect, useRef, type ReactNode } from 'react';
+import ReactEChartsCore from 'echarts-for-react/lib/core';
+import * as echarts from 'echarts/core';
+import { HeatmapChart } from 'echarts/charts';
+import { CalendarComponent, TooltipComponent, VisualMapComponent } from 'echarts/components';
+import { CanvasRenderer } from 'echarts/renderers';
+import type { EChartsOption } from 'echarts';
 import type { ContributionData } from '../../types';
 import { Skeleton } from '../common';
 import styles from './ContributionGraph.module.css';
+
+// Register ECharts components (tree-shaking friendly)
+echarts.use([HeatmapChart, CalendarComponent, TooltipComponent, VisualMapComponent, CanvasRenderer]);
 
 interface ContributionGraphProps {
   contributions: ContributionData | null;
@@ -18,13 +27,12 @@ const CONTRIBUTION_COLORS = [
   '#39d353', // Level 4
 ];
 
-const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-
 export function ContributionGraph({ contributions, isLoading, activityOverview }: ContributionGraphProps) {
   const currentYear = new Date().getFullYear();
   const [selectedYear, setSelectedYear] = useState(currentYear);
-  
+  const chartRef = useRef<ReactEChartsCore>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+
   const availableYears = useMemo(() => {
     if (!contributions?.total) return [currentYear];
     return Object.keys(contributions.total)
@@ -32,148 +40,166 @@ export function ContributionGraph({ contributions, isLoading, activityOverview }
       .sort((a, b) => b - a);
   }, [contributions, currentYear]);
 
-  const { weeks, monthLabels } = useMemo(() => {
-    if (!contributions?.contributions) {
-      return { weeks: [], monthLabels: [] };
-    }
+  // Transform contribution data for ECharts
+  const chartData = useMemo(() => {
+    if (!contributions?.contributions) return [];
     
     const yearStart = new Date(selectedYear, 0, 1);
     const yearEnd = new Date(selectedYear, 11, 31);
     
-    // Create a map of date -> contribution
-    const contributionMap = new Map(
-      contributions.contributions
-        .filter(c => {
-          const date = new Date(c.date);
-          return date >= yearStart && date <= yearEnd;
-        })
-        .map(c => [c.date, c])
-    );
-
-    const weeksData: Array<Array<{ date: string; count: number; level: number }>> = [];
-    const monthLabelsData: Array<{ month: string; weekIndex: number }> = [];
-    
-    // Start from the first Sunday on or before Jan 1
-    const startDate = new Date(yearStart);
-    const startDayOfWeek = startDate.getDay();
-    startDate.setDate(startDate.getDate() - startDayOfWeek);
-    
-    let currentDate = new Date(startDate);
-    let weekIndex = 0;
-    let lastMonth = -1;
-    
-    while (currentDate <= yearEnd || weeksData[weeksData.length - 1]?.length < 7) {
-      if (!weeksData[weekIndex]) {
-        weeksData[weekIndex] = [];
-      }
-      
-      const dateStr = currentDate.toISOString().split('T')[0];
-      const isInYear = currentDate >= yearStart && currentDate <= yearEnd;
-      const contribution = contributionMap.get(dateStr);
-      
-      weeksData[weekIndex].push({
-        date: dateStr,
-        count: isInYear ? (contribution?.count || 0) : -1,
-        level: isInYear ? (contribution?.level || 0) : -1,
-      });
-      
-      // Track month labels
-      if (isInYear && currentDate.getMonth() !== lastMonth) {
-        monthLabelsData.push({
-          month: MONTHS[currentDate.getMonth()],
-          weekIndex,
-        });
-        lastMonth = currentDate.getMonth();
-      }
-      
-      currentDate.setDate(currentDate.getDate() + 1);
-      
-      if (weeksData[weekIndex].length === 7) {
-        weekIndex++;
-      }
-    }
-    
-    return { weeks: weeksData, monthLabels: monthLabelsData };
+    return contributions.contributions
+      .filter(c => {
+        const date = new Date(c.date);
+        return date >= yearStart && date <= yearEnd;
+      })
+      .map(c => [c.date, c.count, c.level]);
   }, [contributions, selectedYear]);
+
+  // Create a map for quick lookup of contribution counts by date
+  const contributionCountMap = useMemo(() => {
+    const map = new Map<string, number>();
+    chartData.forEach(([date, count]) => {
+      map.set(date as string, count as number);
+    });
+    return map;
+  }, [chartData]);
+
+  // ECharts options
+  const chartOptions = useMemo((): EChartsOption => ({
+    tooltip: {
+      show: true,
+      showDelay: 1000, // 1 second delay like GitHub
+      hideDelay: 100,
+      enterable: false,
+      confine: true,
+      formatter: (params) => {
+        const p = params as { value?: [string, number] };
+        if (!p.value) return '';
+        const [date] = p.value;
+        const count = contributionCountMap.get(date) || 0;
+        const dateObj = new Date(date);
+        const formattedDate = dateObj.toLocaleDateString('en-US', {
+          month: 'short',
+          day: 'numeric',
+          year: 'numeric',
+        });
+        const dayName = dateObj.toLocaleDateString('en-US', { weekday: 'long' });
+        
+        // GitHub-style tooltip
+        return `<div style="
+          font-size: 12px;
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
+          line-height: 1.5;
+          text-align: center;
+          padding: 8px 10px;
+        ">
+          <strong style="color: #e6edf3; font-weight: 600;">${count} contribution${count !== 1 ? 's' : ''}</strong>
+          <br/>
+          <span style="color: #8b949e; font-size: 11px;">${dayName}, ${formattedDate}</span>
+        </div>`;
+      },
+      backgroundColor: '#1c2128',
+      borderColor: '#444c56',
+      borderWidth: 1,
+      borderRadius: 6,
+      padding: 0,
+      extraCssText: 'box-shadow: 0 8px 24px rgba(0,0,0,0.3);',
+      textStyle: {
+        color: '#e6edf3',
+      },
+    },
+    visualMap: {
+      show: false,
+      min: 0,
+      max: 4, // Levels 0-4
+      inRange: {
+        color: CONTRIBUTION_COLORS,
+      },
+      calculable: false,
+    },
+    calendar: {
+      top: 22,
+      left: 36,
+      right: 8,
+      bottom: 8,
+      cellSize: 'auto', // Let ECharts auto-calculate to fit container
+      range: String(selectedYear),
+      itemStyle: {
+        borderWidth: 4, // Gap between cells
+        borderColor: '#0d1117',
+        color: '#161b22',
+        borderRadius: 2,
+      },
+      yearLabel: { show: false },
+      monthLabel: {
+        nameMap: 'EN',
+        color: '#7d8590',
+        fontSize: 10,
+        margin: 6,
+      },
+      dayLabel: {
+        firstDay: 0, // Sunday first
+        nameMap: ['', 'Mon', '', 'Wed', '', 'Fri', ''], // Show only Mon, Wed, Fri like GitHub
+        color: '#7d8590',
+        fontSize: 9,
+        margin: 4,
+      },
+      splitLine: {
+        show: false,
+      },
+    },
+    series: [
+      {
+        type: 'heatmap',
+        coordinateSystem: 'calendar',
+        data: chartData.map(([date, , level]) => [date, level]), // Use level for color mapping
+        itemStyle: {
+          borderRadius: 2,
+        },
+        emphasis: {
+          itemStyle: {
+            borderColor: 'rgba(255, 255, 255, 0.5)',
+            borderWidth: 1,
+          },
+        },
+      },
+    ],
+  }), [chartData, selectedYear, contributionCountMap]);
+
+  // Handle resize
+  useEffect(() => {
+    const handleResize = () => {
+      chartRef.current?.getEchartsInstance()?.resize();
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   if (isLoading) {
     return <ContributionGraphSkeleton />;
   }
 
   const yearContributions = contributions?.total?.[selectedYear] || 0;
-  
 
   return (
     <div className={styles.wrapper}>
       <h2 className={styles.title}>
-        {yearContributions.toLocaleString()} contributions in the last year
+        {yearContributions.toLocaleString()} contributions in {selectedYear}
       </h2>
       
       <div className={styles.mainContent}>
-        <div className={styles.container}>
-          <div className={styles.graphWrapper}>
-            <div className={styles.graph}>
-              <div className={styles.dayLabels}>
-                {DAYS.map((day, i) => (
-                  <span 
-                    key={day} 
-                    className={styles.dayLabel}
-                    style={{ visibility: i % 2 === 0 ? 'hidden' : 'visible' }}
-                  >
-                    {day}
-                  </span>
-                ))}
-              </div>
-              
-              <div className={styles.calendarContainer}>
-                <div className={styles.monthLabels}>
-                  {monthLabels.map(({ month, weekIndex }, i) => (
-                    <span 
-                      key={`${month}-${i}`}
-                      className={styles.monthLabel}
-                      style={{ gridColumn: weekIndex + 1 }}
-                    >
-                      {month}
-                    </span>
-                  ))}
-                </div>
-                
-                <div className={styles.calendar}>
-                  {weeks.map((week, weekIndex) => (
-                    <div key={weekIndex} className={styles.week}>
-                      {week.map((day, dayIndex) => {
-                        const isOutOfRange = day.level === -1;
-                        const isEmpty = day.level === 0;
-                        
-                        return (
-                          <div
-                            key={`${weekIndex}-${dayIndex}`}
-                            className={`${styles.day} ${isEmpty ? styles.dayEmpty : ''}`}
-                            style={{
-                              backgroundColor: isOutOfRange 
-                                ? 'transparent' 
-                                : isEmpty 
-                                  ? undefined 
-                                  : CONTRIBUTION_COLORS[day.level],
-                              visibility: isOutOfRange ? 'hidden' : 'visible',
-                            }}
-                            title={isOutOfRange 
-                              ? '' 
-                              : `${day.count} contribution${day.count !== 1 ? 's' : ''} on ${new Date(day.date).toLocaleDateString('en-US', {
-                                  weekday: 'long',
-                                  year: 'numeric',
-                                  month: 'long',
-                                  day: 'numeric',
-                                })}`
-                            }
-                          />
-                        );
-                      })}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
+        <div className={styles.container} ref={containerRef}>
+          <div className={styles.chartWrapper}>
+            <ReactEChartsCore
+              ref={chartRef}
+              echarts={echarts}
+              option={chartOptions}
+              style={{ height: '130px', width: '100%', minWidth: '720px' }}
+              opts={{ renderer: 'canvas' }}
+              notMerge={true}
+              lazyUpdate={true}
+            />
           </div>
 
           <div className={styles.footer}>
@@ -238,7 +264,7 @@ function ContributionGraphSkeleton() {
       <Skeleton width={300} height={24} />
       <div className={styles.mainContent}>
         <div className={styles.container}>
-          <Skeleton width="100%" height={140} variant="rectangular" />
+          <Skeleton width="100%" height={130} variant="rectangular" />
         </div>
       </div>
     </div>

@@ -182,18 +182,7 @@ export function Header({ username, avatarUrl, repoCount = 0, starCount = 0 }: He
         </nav>
       </div>
 
-      {mobileMenuOpen && (
-        <div className={styles.mobileMenu}>
-          <nav className={styles.mobileNav}>
-            <a href="#" className={styles.mobileNavLink}>Dashboard</a>
-            <a href="#" className={styles.mobileNavLink}>Pull requests</a>
-            <a href="#" className={styles.mobileNavLink}>Issues</a>
-            <a href="#" className={styles.mobileNavLink}>Codespaces</a>
-            <a href="#" className={styles.mobileNavLink}>Marketplace</a>
-            <a href="#" className={styles.mobileNavLink}>Explore</a>
-          </nav>
-        </div>
-      )}
+     
 
       {mobileSearchOpen && (
         <div className={styles.mobileSearchOverlay}>

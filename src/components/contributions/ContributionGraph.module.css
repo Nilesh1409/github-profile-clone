@@ -27,101 +27,28 @@
   overflow: hidden;
 }
 
-.graphWrapper {
+/* ECharts container */
+.chartWrapper {
   overflow-x: auto;
   overflow-y: hidden;
-  padding: 8px 0;
   margin: 0 -16px;
-  padding-left: 16px;
-  padding-right: 16px;
+  padding: 0 16px;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: thin;
   scrollbar-color: var(--color-border-default) transparent;
 }
 
-.graphWrapper::-webkit-scrollbar {
+.chartWrapper::-webkit-scrollbar {
   height: 6px;
 }
 
-.graphWrapper::-webkit-scrollbar-track {
+.chartWrapper::-webkit-scrollbar-track {
   background: transparent;
 }
 
-.graphWrapper::-webkit-scrollbar-thumb {
+.chartWrapper::-webkit-scrollbar-thumb {
   background-color: var(--color-border-default);
   border-radius: 3px;
-}
-
-.graph {
-  display: flex;
-  gap: 4px;
-  width: fit-content;
-}
-
-.dayLabels {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  padding-top: 20px;
-}
-
-.dayLabel {
-  font-size: 10px;
-  color: var(--color-fg-muted);
-  height: 10px;
-  line-height: 10px;
-  text-align: right;
-  padding-right: 4px;
-}
-
-.calendarContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  min-width: fit-content;
-}
-
-.monthLabels {
-  display: grid;
-  grid-template-columns: repeat(53, 10px);
-  gap: 3px;
-  height: 16px;
-  min-width: fit-content;
-}
-
-.monthLabel {
-  font-size: 10px;
-  color: var(--color-fg-muted);
-  line-height: 16px;
-  white-space: nowrap;
-}
-
-.calendar {
-  display: flex;
-  gap: 3px;
-  min-width: fit-content;
-}
-
-.week {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-
-.day {
-  width: 10px;
-  height: 10px;
-  border-radius: 2px;
-  outline: 1px solid rgba(27, 31, 35, 0.06);
-  outline-offset: -1px;
-}
-
-.day:not(.dayEmpty):hover {
-  outline: 1px solid rgba(255, 255, 255, 0.5);
-}
-
-.dayEmpty {
-  background-color: #151B23;
 }
 
 .footer {
@@ -245,11 +172,9 @@
     padding: 12px;
   }
 
-  .graphWrapper {
+  .chartWrapper {
     margin: 0 -12px;
-    padding: 8px 12px;
-    padding-left: 12px;
-    padding-right: 12px;
+    padding: 0 12px;
   }
 }
 
@@ -272,11 +197,9 @@
     width: 100%;
   }
 
-  .graphWrapper {
+  .chartWrapper {
     margin: 0 -12px;
-    padding: 8px 12px;
-    padding-left: 12px;
-    padding-right: 12px;
+    padding: 0 12px;
   }
 
   .yearList {
@@ -318,36 +241,9 @@
     width: 100%;
   }
 
-  .graphWrapper {
+  .chartWrapper {
     margin: 0 -10px;
-    padding: 6px 10px;
-    padding-left: 10px;
-    padding-right: 10px;
-  }
-
-  .dayLabels {
-    display: none;
-  }
-
-  .monthLabels {
-    gap: 2px;
-  }
-
-  .monthLabel {
-    font-size: 9px;
-  }
-
-  .calendar {
-    gap: 2px;
-  }
-
-  .week {
-    gap: 2px;
-  }
-
-  .day {
-    width: 8px;
-    height: 8px;
+    padding: 0 10px;
   }
 
   .yearSelect {
