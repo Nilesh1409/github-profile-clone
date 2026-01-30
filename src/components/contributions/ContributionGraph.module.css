@@ -1,0 +1,376 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--color-fg-default);
+}
+
+.mainContent {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  flex-wrap: nowrap;
+}
+
+.container {
+  flex: 1;
+  min-width: 0;
+  padding: 16px;
+  border: 1px solid var(--color-border-default);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.graphWrapper {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 8px 0;
+  margin: 0 -16px;
+  padding-left: 16px;
+  padding-right: 16px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border-default) transparent;
+}
+
+.graphWrapper::-webkit-scrollbar {
+  height: 6px;
+}
+
+.graphWrapper::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.graphWrapper::-webkit-scrollbar-thumb {
+  background-color: var(--color-border-default);
+  border-radius: 3px;
+}
+
+.graph {
+  display: flex;
+  gap: 4px;
+  width: fit-content;
+}
+
+.dayLabels {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding-top: 20px;
+}
+
+.dayLabel {
+  font-size: 10px;
+  color: var(--color-fg-muted);
+  height: 10px;
+  line-height: 10px;
+  text-align: right;
+  padding-right: 4px;
+}
+
+.calendarContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: fit-content;
+}
+
+.monthLabels {
+  display: grid;
+  grid-template-columns: repeat(53, 10px);
+  gap: 3px;
+  height: 16px;
+  min-width: fit-content;
+}
+
+.monthLabel {
+  font-size: 10px;
+  color: var(--color-fg-muted);
+  line-height: 16px;
+  white-space: nowrap;
+}
+
+.calendar {
+  display: flex;
+  gap: 3px;
+  min-width: fit-content;
+}
+
+.week {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.day {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  outline: 1px solid rgba(27, 31, 35, 0.06);
+  outline-offset: -1px;
+}
+
+.day:not(.dayEmpty):hover {
+  outline: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.dayEmpty {
+  background-color: #151B23;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.learnMore {
+  font-size: 12px;
+  color: var(--color-fg-muted);
+  text-decoration: none;
+}
+
+.learnMore:hover {
+  color: var(--color-accent-fg);
+  text-decoration: underline;
+}
+
+.legend {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.legendLabel {
+  font-size: 10px;
+  color: var(--color-fg-muted);
+}
+
+.legendBox {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+
+.legendBox:first-of-type {
+  outline: 1px solid #30363d;
+  outline-offset: -1px;
+}
+
+/* Activity overview section inside the container */
+.activityOverviewSection {
+  border-top: 1px solid var(--color-border-default);
+  margin-top: 16px;
+  padding-top: 16px;
+}
+
+/* Year list on the right */
+.yearList {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex-shrink: 0;
+  min-width: 70px;
+}
+
+.yearButton {
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--color-fg-muted);
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.15s ease;
+}
+
+.yearButton:hover {
+  color: var(--color-fg-default);
+}
+
+.yearButtonActive {
+  color: var(--color-fg-on-emphasis);
+  background-color: var(--color-accent-emphasis);
+}
+
+.yearButtonActive:hover {
+  color: var(--color-fg-on-emphasis);
+  background-color: var(--color-accent-emphasis);
+}
+
+/* Year select dropdown - hidden on desktop */
+.yearSelectWrapper {
+  display: none;
+}
+
+.yearSelect {
+  padding: 6px 28px 6px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-fg-default);
+  background-color: var(--color-canvas-subtle);
+  border: 1px solid var(--color-border-default);
+  border-radius: 6px;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='%238b949e'%3E%3Cpath d='M6 8.825c-.2 0-.4-.1-.5-.2l-3.3-3.3c-.3-.3-.3-.8 0-1.1.3-.3.8-.3 1.1 0l2.7 2.7 2.7-2.7c.3-.3.8-.3 1.1 0 .3.3.3.8 0 1.1l-3.3 3.3c-.1.1-.3.2-.5.2z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  min-width: 80px;
+}
+
+.yearSelect:hover {
+  border-color: var(--color-border-muted);
+}
+
+.yearSelect:focus {
+  outline: none;
+  border-color: var(--color-accent-fg);
+  box-shadow: 0 0 0 3px rgba(31, 111, 235, 0.3);
+}
+
+@media (max-width: 1012px) {
+  .container {
+    padding: 12px;
+  }
+
+  .graphWrapper {
+    margin: 0 -12px;
+    padding: 8px 12px;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  .mainContent {
+    flex-direction: column;
+  }
+
+  .wrapper {
+    position: relative;
+  }
+
+  .title {
+    font-size: 14px;
+    padding-right: 90px;
+  }
+
+  .container {
+    padding: 12px;
+    width: 100%;
+  }
+
+  .graphWrapper {
+    margin: 0 -12px;
+    padding: 8px 12px;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .yearList {
+    display: none;
+  }
+
+  .yearSelectWrapper {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
+  .footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .legend {
+    order: -1;
+  }
+
+  .activityOverviewSection {
+    margin-top: 12px;
+    padding-top: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 13px;
+    padding-right: 85px;
+  }
+
+  .container {
+    padding: 10px;
+    border-radius: 4px;
+    width: 100%;
+  }
+
+  .graphWrapper {
+    margin: 0 -10px;
+    padding: 6px 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .dayLabels {
+    display: none;
+  }
+
+  .monthLabels {
+    gap: 2px;
+  }
+
+  .monthLabel {
+    font-size: 9px;
+  }
+
+  .calendar {
+    gap: 2px;
+  }
+
+  .week {
+    gap: 2px;
+  }
+
+  .day {
+    width: 8px;
+    height: 8px;
+  }
+
+  .yearSelect {
+    padding: 5px 24px 5px 10px;
+    font-size: 11px;
+    min-width: 70px;
+  }
+
+  .footer {
+    margin-top: 6px;
+  }
+
+  .learnMore {
+    font-size: 11px;
+  }
+
+  .legendBox {
+    width: 8px;
+    height: 8px;
+  }
+
+  .legendLabel {
+    font-size: 9px;
+  }
+}
+

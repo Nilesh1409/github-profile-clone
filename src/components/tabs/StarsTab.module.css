@@ -1,0 +1,113 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.title {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--color-fg-default);
+}
+
+.count {
+  padding: 0 7px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-fg-default);
+  background-color: var(--color-neutral-muted);
+  border-radius: 2em;
+}
+
+.filters {
+  display: flex;
+  gap: 16px;
+}
+
+.searchInput {
+  flex: 1;
+  max-width: 400px;
+  padding: 5px 12px;
+  font-size: 14px;
+  color: var(--color-fg-default);
+  background-color: var(--color-canvas-default);
+  border: 1px solid var(--color-border-default);
+  border-radius: 6px;
+  outline: none;
+}
+
+.searchInput:focus {
+  border-color: var(--color-accent-fg);
+  box-shadow: 0 0 0 3px rgba(31, 111, 235, 0.15);
+}
+
+.repoList {
+  display: flex;
+  flex-direction: column;
+}
+
+.repoItem {
+  padding: 16px 0;
+  border-bottom: 1px solid var(--color-border-muted);
+}
+
+.repoHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.repoIcon {
+  color: var(--color-fg-muted);
+}
+
+.repoName {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.repoName a {
+  color: var(--color-accent-fg);
+  text-decoration: none;
+}
+
+.repoName a:hover {
+  text-decoration: underline;
+}
+
+.description {
+  margin: 8px 0;
+  font-size: 14px;
+  color: var(--color-fg-muted);
+  max-width: 600px;
+}
+
+.repoMeta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+}
+
+.metaStat {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--color-fg-muted);
+}
+
+.emptyState {
+  padding: 48px;
+  text-align: center;
+  color: var(--color-fg-muted);
+}
+

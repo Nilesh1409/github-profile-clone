@@ -1,0 +1,47 @@
+.layout {
+  display: flex;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 24px 32px;
+  gap: 24px;
+}
+
+.sidebar {
+  flex-shrink: 0;
+  width: 296px;
+}
+
+.content {
+  flex: 1;
+  min-width: 0;
+}
+
+@media (max-width: 1012px) {
+  .layout {
+    padding: 16px 24px;
+  }
+
+  .sidebar {
+    width: 256px;
+  }
+}
+
+@media (max-width: 768px) {
+  .layout {
+    flex-direction: column;
+    padding: 16px;
+    gap: 16px;
+  }
+
+  .sidebar {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .layout {
+    padding: 12px;
+    gap: 12px;
+  }
+}
+

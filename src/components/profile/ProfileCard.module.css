@@ -1,0 +1,296 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.avatarSection {
+  position: relative;
+  width: fit-content;
+}
+
+.statusEmoji {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  font-size: 20px;
+  background-color: var(--color-canvas-default);
+  border: 1px solid var(--color-border-default);
+  border-radius: 50%;
+}
+
+.nameSection {
+  margin-top: 8px;
+}
+
+.name {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--color-fg-default);
+}
+
+.username {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 24px;
+  color: var(--color-fg-muted);
+}
+
+.bio {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--color-fg-default);
+}
+
+.editButton {
+  margin-top: 4px;
+}
+
+.stats {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  color: var(--color-fg-muted);
+}
+
+.statLink {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--color-fg-muted);
+  text-decoration: none;
+}
+
+.statLink:hover {
+  color: var(--color-accent-fg);
+}
+
+.statCount {
+  font-weight: 600;
+  color: var(--color-fg-default);
+}
+
+.statLabel {
+  color: var(--color-fg-muted);
+}
+
+.statDot {
+  color: var(--color-fg-muted);
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.detailItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--color-fg-muted);
+}
+
+.detailItem svg {
+  flex-shrink: 0;
+  color: var(--color-fg-muted);
+}
+
+.detailLink {
+  color: var(--color-fg-default);
+  text-decoration: none;
+}
+
+.detailLink:hover {
+  color: var(--color-accent-fg);
+  text-decoration: underline;
+}
+
+.xIcon {
+  width: 16px;
+  font-size: 14px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.section {
+  padding-top: 16px;
+  border-top: 1px solid var(--color-border-muted);
+}
+
+.sectionTitle {
+  margin: 0 0 8px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-fg-default);
+}
+
+.achievementsList {
+  display: flex;
+  gap: 8px;
+}
+
+.achievement {
+  position: relative;
+}
+
+.achievementBadge {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+}
+
+.achievementCount {
+  position: absolute;
+  bottom: 0;
+  right: -4px;
+  padding: 0 4px;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--color-fg-default);
+  background-color: var(--color-canvas-subtle);
+  border: 1px solid var(--color-border-default);
+  border-radius: 8px;
+}
+
+.orgList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.orgLink {
+  display: block;
+}
+
+.orgAvatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  border: 1px solid var(--color-border-default);
+}
+
+.orgAvatar:hover {
+  opacity: 0.8;
+}
+
+@media (max-width: 768px) {
+  .card {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .avatarSection {
+    width: auto;
+  }
+
+  .statusEmoji {
+    width: 24px;
+    height: 24px;
+    font-size: 12px;
+    bottom: 0;
+    right: 0;
+  }
+
+  .nameSection {
+    flex: 1;
+    min-width: 200px;
+    margin-top: 0;
+  }
+
+  .name {
+    font-size: 20px;
+  }
+
+  .username {
+    font-size: 16px;
+  }
+
+  .bio {
+    width: 100%;
+  }
+
+  .editButton {
+    width: 100%;
+  }
+
+  .stats {
+    width: 100%;
+  }
+
+  .details {
+    width: 100%;
+  }
+
+  .section {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    gap: 10px;
+  }
+
+  .nameSection {
+    min-width: 150px;
+  }
+
+  .name {
+    font-size: 18px;
+  }
+
+  .username {
+    font-size: 14px;
+  }
+
+  .bio {
+    font-size: 13px;
+  }
+
+  .stats {
+    font-size: 13px;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .statLink {
+    gap: 3px;
+  }
+
+  .detailItem {
+    font-size: 13px;
+    gap: 6px;
+  }
+
+  .sectionTitle {
+    font-size: 14px;
+  }
+
+  .achievementBadge {
+    width: 40px;
+    height: 40px;
+  }
+
+  .orgAvatar {
+    width: 28px;
+    height: 28px;
+  }
+}
+

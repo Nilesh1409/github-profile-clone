@@ -1,0 +1,167 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  background-color: var(--color-canvas-default);
+  border: 1px solid var(--color-border-default);
+  border-radius: 6px;
+  height: 100%;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.repoIcon {
+  flex-shrink: 0;
+  color: var(--color-fg-muted);
+}
+
+.repoName {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-accent-fg);
+  text-decoration: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.repoName:hover {
+  text-decoration: underline;
+}
+
+.visibility {
+  padding: 0 7px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-fg-muted);
+  background-color: transparent;
+  border: 1px solid var(--color-border-default);
+  border-radius: 2em;
+  white-space: nowrap;
+}
+
+.forkedFrom {
+  margin: 0 0 8px;
+  font-size: 12px;
+  color: var(--color-fg-muted);
+}
+
+.forkedFrom a {
+  color: var(--color-fg-muted);
+  text-decoration: none;
+}
+
+.forkedFrom a:hover {
+  color: var(--color-accent-fg);
+  text-decoration: underline;
+}
+
+.description {
+  flex: 1;
+  margin: 0 0 16px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--color-fg-muted);
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: auto;
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--color-fg-muted);
+  text-decoration: none;
+}
+
+.stat:hover {
+  color: var(--color-accent-fg);
+}
+
+.stat svg {
+  color: var(--color-fg-muted);
+}
+
+.stat:hover svg {
+  color: var(--color-accent-fg);
+}
+
+@media (max-width: 768px) {
+  .card {
+    padding: 14px;
+  }
+
+  .repoName {
+    font-size: 13px;
+  }
+
+  .visibility {
+    font-size: 11px;
+    padding: 0 6px;
+  }
+
+  .description {
+    font-size: 11px;
+    margin-bottom: 12px;
+  }
+
+  .footer {
+    gap: 12px;
+  }
+
+  .stat {
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 12px;
+  }
+
+  .header {
+    gap: 6px;
+    margin-bottom: 6px;
+  }
+
+  .repoName {
+    font-size: 12px;
+  }
+
+  .visibility {
+    font-size: 10px;
+    padding: 0 5px;
+  }
+
+  .forkedFrom {
+    font-size: 11px;
+    margin-bottom: 6px;
+  }
+
+  .description {
+    font-size: 11px;
+    margin-bottom: 10px;
+    line-height: 1.4;
+  }
+
+  .footer {
+    gap: 10px;
+  }
+
+  .stat {
+    font-size: 10px;
+    gap: 3px;
+  }
+}
+

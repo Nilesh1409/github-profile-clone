@@ -1,0 +1,313 @@
+.container {
+  margin-top: 32px;
+}
+
+.sectionTitle {
+  margin: 0 0 16px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-fg-default);
+}
+
+.monthGroup {
+  margin-bottom: 24px;
+}
+
+.monthTitle {
+  margin: 0 0 0 15px;
+  padding-bottom: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-fg-default);
+  border-bottom: 1px solid var(--color-border-muted);
+}
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-left: 15px;
+}
+
+.timelineLine {
+  width: 2px;
+  height: 16px;
+  background-color: var(--color-border-default);
+  margin-left: 15px;
+}
+
+.activityItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.activityIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  color: var(--color-fg-muted);
+  background-color: var(--color-canvas-subtle);
+  border: 2px solid var(--color-border-default);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.activityContent {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 32px;
+  gap: 16px;
+}
+
+.activityText {
+  font-size: 14px;
+  color: var(--color-fg-default);
+}
+
+.dateRange {
+  font-size: 12px;
+  color: var(--color-fg-muted);
+  white-space: nowrap;
+}
+
+.expandButton {
+  padding: 4px;
+  color: var(--color-fg-muted);
+  background: none;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.expandButton:hover {
+  background-color: var(--color-neutral-muted);
+}
+
+.detailsList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-left: 44px;
+  padding-left: 16px;
+  border-left: 2px solid var(--color-border-default);
+}
+
+.detailItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+}
+
+.repoLink {
+  font-size: 14px;
+  color: var(--color-fg-default);
+  text-decoration: none;
+}
+
+.repoLink:hover {
+  color: var(--color-accent-fg);
+  text-decoration: underline;
+}
+
+.prBadges {
+  display: flex;
+  gap: 4px;
+  margin-left: auto;
+}
+
+.mergedBadge {
+  padding: 0 7px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #a371f7;
+  background-color: rgba(163, 113, 247, 0.15);
+  border-radius: 2em;
+}
+
+.openBadge {
+  padding: 0 7px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #3fb950;
+  background-color: rgba(63, 185, 80, 0.15);
+  border-radius: 2em;
+}
+
+.showMoreButton {
+  width: 100%;
+  padding: 8px 16px;
+  margin-top: 16px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-accent-fg);
+  background-color: var(--color-canvas-default);
+  border: 1px solid var(--color-border-default);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.showMoreButton:hover {
+  background-color: var(--color-btn-hover-bg);
+}
+
+.footer {
+  margin-top: 24px;
+  font-size: 12px;
+  color: var(--color-fg-muted);
+}
+
+.footerLink {
+  color: var(--color-accent-fg);
+  text-decoration: none;
+}
+
+.footerLink:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .container {
+    margin-top: 24px;
+  }
+
+  .sectionTitle {
+    font-size: 14px;
+    margin-bottom: 12px;
+  }
+
+  .monthGroup {
+    margin-bottom: 20px;
+  }
+
+  .monthTitle {
+    font-size: 13px;
+  }
+
+  .activityList {
+    gap: 10px;
+  }
+
+  .activityItem {
+    gap: 10px;
+  }
+
+  .activityIcon {
+    width: 28px;
+    height: 28px;
+  }
+
+  .activityText {
+    font-size: 13px;
+  }
+
+  .detailsList {
+    margin-left: 20px;
+    padding-left: 12px;
+  }
+
+  .detailItem {
+    flex-wrap: wrap;
+  }
+
+  .prBadges {
+    margin-left: 0;
+    margin-top: 4px;
+    width: 100%;
+  }
+
+  .repoLink {
+    font-size: 13px;
+  }
+
+  .showMoreButton {
+    padding: 6px 14px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    margin-top: 20px;
+  }
+
+  .sectionTitle {
+    font-size: 13px;
+    margin-bottom: 10px;
+  }
+
+  .monthGroup {
+    margin-bottom: 16px;
+  }
+
+  .monthTitle {
+    font-size: 12px;
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+  }
+
+  .activityList {
+    gap: 8px;
+  }
+
+  .activityItem {
+    gap: 8px;
+  }
+
+  .activityIcon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .activityIcon svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  .activityContent {
+    min-height: 24px;
+  }
+
+  .activityText {
+    font-size: 12px;
+  }
+
+  .detailsList {
+    margin-left: 16px;
+    padding-left: 10px;
+    gap: 6px;
+  }
+
+  .detailItem {
+    padding: 3px 0;
+    gap: 6px;
+  }
+
+  .repoLink {
+    font-size: 12px;
+  }
+
+  .mergedBadge,
+  .openBadge {
+    font-size: 10px;
+    padding: 0 5px;
+  }
+
+  .showMoreButton {
+    padding: 6px 12px;
+    font-size: 12px;
+    margin-top: 12px;
+  }
+
+  .footer {
+    margin-top: 16px;
+    font-size: 11px;
+  }
+}
+
