@@ -2,6 +2,7 @@ import { Routes, Route, useParams } from 'react-router-dom';
 import { Header, Footer } from '../components/layout';
 import { ProfileCard } from '../components/profile';
 import { OverviewTab, EmptyTab } from '../components/tabs';
+import { Icon } from '../components/common';
 import { 
   useGitHubUser, 
   useRepositories, 
@@ -14,7 +15,7 @@ import styles from './ProfilePage.module.css';
 export function ProfilePage() {
   const { username = DEFAULT_USERNAME } = useParams<{ username: string }>();
   
-  const { user, isLoading: isLoadingUser } = useGitHubUser(username);
+  const { user, isLoading: isLoadingUser, error: userError } = useGitHubUser(username);
   const { repositories, isLoading: isLoadingRepos } = useRepositories(username, {
     sort: 'updated',
     perPage: 100,
@@ -27,6 +28,68 @@ export function ProfilePage() {
   } = useContributions(username);
 
   const isLoadingSidebar = isLoadingUser || isLoadingOrgs;
+
+  // Check error status
+  const errorStatus = userError && 'status' in userError ? (userError as { status: number }).status : null;
+  const isUserNotFound = errorStatus === 404;
+  const isRateLimited = errorStatus === 403;
+  const hasError = userError && !isLoadingUser;
+
+  // Show error page if there's an error
+  if (hasError) {
+    let errorTitle = 'Something went wrong';
+    let errorDescription = 'An error occurred while loading the profile.';
+    let errorHint = 'Please try again later.';
+
+    if (isUserNotFound) {
+      errorTitle = 'User not found';
+      errorDescription = `The user "${username}" doesn't exist on GitHub.`;
+      errorHint = 'Please check the username and try again, or search for a different user.';
+    } else if (isRateLimited) {
+      errorTitle = 'API Rate Limit Exceeded';
+      errorDescription = 'Too many requests to GitHub API.';
+      errorHint = 'GitHub limits unauthenticated requests to 60 per hour. Please wait a few minutes and try again.';
+    }
+
+    return (
+      <div className={styles.page}>
+        <Header 
+          username={username} 
+          avatarUrl={undefined}
+          repoCount={0}
+          starCount={0}
+        />
+        <div className={styles.errorContainer}>
+          <div className={styles.errorContent}>
+            <Icon name="alert" size={48} className={styles.errorIcon} />
+            <h1 className={styles.errorTitle}>{errorTitle}</h1>
+            <p className={styles.errorDescription}>
+              {isUserNotFound ? (
+                <>The user <strong>"{username}"</strong> doesn't exist on GitHub.</>
+              ) : (
+                errorDescription
+              )}
+            </p>
+            <p className={styles.errorHint}>{errorHint}</p>
+            <div className={styles.errorActions}>
+              <button 
+                onClick={() => window.location.reload()} 
+                className={styles.errorButton}
+              >
+                Try again
+              </button>
+              {isUserNotFound && (
+                <a href={`/${DEFAULT_USERNAME}`} className={styles.errorButtonSecondary}>
+                  View default profile
+                </a>
+              )}
+            </div>
+          </div>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className={styles.page}>
