@@ -7,13 +7,14 @@ import type {
 } from '../types';
 
 class ApiError extends Error {
-  constructor(
-    message: string,
-    public status: number,
-    public endpoint: string
-  ) {
+  status: number;
+  endpoint: string;
+
+  constructor(message: string, status: number, endpoint: string) {
     super(message);
     this.name = 'ApiError';
+    this.status = status;
+    this.endpoint = endpoint;
   }
 }
 
